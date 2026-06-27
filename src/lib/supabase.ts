@@ -5,9 +5,13 @@ const supabasePublishableKey =
   (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined) ??
   (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined);
 
-if (!supabaseUrl || !supabasePublishableKey) {
-  // Keep the app renderable during first setup while making the missing config obvious.
+export const isSupabaseConfigured = Boolean(supabaseUrl && supabasePublishableKey);
+
+if (!isSupabaseConfigured) {
   console.warn('Missing VITE_SUPABASE_URL or VITE_SUPABASE_PUBLISHABLE_KEY.');
 }
 
-export const supabase = createClient(supabaseUrl ?? '', supabasePublishableKey ?? '');
+export const supabase = createClient(
+  supabaseUrl ?? 'https://missing-config.supabase.co',
+  supabasePublishableKey ?? 'missing-config',
+);

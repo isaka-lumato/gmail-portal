@@ -101,6 +101,8 @@ Frontend behavior is helpful UX, not security. Every Edge Function must:
 
 Owner OAuth setup functions have JWT verification disabled in `supabase/config.toml` because the Google callback cannot include a Supabase JWT. They are protected by `OWNER_SETUP_TOKEN`.
 
+`mail-list` paginates Gmail results so users can see past messages involving the configured `ALLOWED_CONTACT_EMAIL`, not just the newest page. Optional secret `MAIL_HISTORY_LIMIT` can cap the number of messages scanned if the allowed address has a very large history.
+
 ## Next Steps
 
 1. Run `supabase/setup.sql` in the Supabase SQL editor, or run the migration plus seed separately.
@@ -117,6 +119,7 @@ GOOGLE_CLIENT_SECRET=
 GOOGLE_REDIRECT_URI=https://zgvhkngtplsnlbhlxxil.functions.supabase.co/owner-oauth-callback
 OWNER_EMAIL=isakawilly10@gmail.com
 OWNER_SETUP_TOKEN=
+MAIL_HISTORY_LIMIT=
 ```
 
 4. Deploy Edge Functions.

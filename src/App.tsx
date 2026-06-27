@@ -3,11 +3,30 @@ import type { Session } from '@supabase/supabase-js';
 import { Inbox, Lock, LogIn, LogOut, Mail, RefreshCw, Send, ShieldCheck } from 'lucide-react';
 import { getMessage, getOwnerAuthUrl, getPolicy, listMessages, sendMessage } from './lib/mailApi';
 import type { MailDetail, MailSummary, Policy } from './lib/mailApi';
-import { supabase } from './lib/supabase';
+import { isSupabaseConfigured, supabase } from './lib/supabase';
 
 type LoadState = 'idle' | 'loading' | 'error';
 
 export function App() {
+  if (!isSupabaseConfigured) {
+    return (
+      <main className="auth-shell">
+        <section className="auth-panel">
+          <div className="brand-mark">
+            <Lock size={26} />
+          </div>
+          <h1>Missing Config</h1>
+          <p>Set the Vercel environment variables and redeploy the project.</p>
+          <div className="notice">Required: VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY</div>
+        </section>
+      </main>
+    );
+  }
+
+  return <ConfiguredApp />;
+}
+
+function ConfiguredApp() {
   const [session, setSession] = useState<Session | null>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

@@ -1,0 +1,7 @@
+project_id = "zgvhkngtplsnlbhlxxil"
+
+[functions.owner-auth-url]
+verify_jwt = false
+
+[functions.owner-oauth-callback]
+verify_jwt = false
